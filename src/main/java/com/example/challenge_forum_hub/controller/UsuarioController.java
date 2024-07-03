@@ -1,15 +1,40 @@
 package com.example.challenge_forum_hub.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.challenge_forum_hub.domain.Usuario.Usuario;
+import com.example.challenge_forum_hub.domain.Usuario.UsuarioLoginDTO;
+import com.example.challenge_forum_hub.domain.Usuario.UsuarioRequestDTO;
+import com.example.challenge_forum_hub.repository.UsuarioRepository;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
 
+    @Autowired
+    UsuarioRepository usuarioRepository;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
+
     @PostMapping
-    public String cadastrar(){
+    public ResponseEntity cadastrar(@RequestBody @Valid UsuarioRequestDTO usuario){
+       var usuarioRegistrado = usuarioRepository.save(new Usuario(usuario));
+       return ResponseEntity.ok().body(usuarioRegistrado);
+    }
+
+
+    @PostMapping("/login")
+    public String logar(@RequestBody @Valid UsuarioLoginDTO data){
+        var usernamePassword = new UsernamePasswordAuthenticationToken(data.usuario(),data.senha());
+
+        var auth = this.authenticationManager.authenticate(usernamePassword);
+        System.out.println(auth);
+
         return "testando";
     }
 }
