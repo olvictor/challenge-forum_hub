@@ -1,5 +1,6 @@
 package com.example.challenge_forum_hub.domain.Curso;
 
+import com.example.challenge_forum_hub.domain.Topico.Topico;
 import jakarta.annotation.Generated;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,4 +23,7 @@ public class Curso {
 
         @Enumerated(EnumType.STRING)
         private Categoria categoria;
+
+        @OneToOne(cascade = CascadeType.PERSIST)
+        private Topico topico;
 }

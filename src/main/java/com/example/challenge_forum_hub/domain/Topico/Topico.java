@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "topicos")
@@ -26,7 +27,15 @@ public class Topico {
    private LocalDateTime dataCriacao;
    private boolean status;
 
+
+   @ManyToOne
+   @JoinColumn(name = "autor_id")
    private Usuario autor;
+
+   @OneToOne(fetch = FetchType.EAGER)
+   @JoinColumn(name = "curso_id")
    private Curso curso;
-   private Resposta respostas;
+
+   @OneToMany(mappedBy = "topico",fetch = FetchType.EAGER)
+   private List<Resposta> respostas;
 }

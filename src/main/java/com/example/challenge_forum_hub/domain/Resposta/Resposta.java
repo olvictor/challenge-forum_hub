@@ -20,7 +20,13 @@ public class Resposta {
     private Long id;
 
     private String mensagem;
-    private Topico topico;
     private LocalDateTime dataCriacao;
-    private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "topico_id")
+    private Topico topico;
+
+    @OneToOne
+    @JoinColumn(name = "autor_id")
+    private Usuario autor;
 }
