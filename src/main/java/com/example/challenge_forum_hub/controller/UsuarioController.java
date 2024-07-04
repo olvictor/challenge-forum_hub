@@ -6,6 +6,7 @@ import com.example.challenge_forum_hub.domain.Usuario.UsuarioRequestDTO;
 import com.example.challenge_forum_hub.domain.Usuario.UsuarioTOKENDTO;
 import com.example.challenge_forum_hub.repository.UsuarioRepository;
 import com.example.challenge_forum_hub.service.TokenService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ public class UsuarioController {
     AuthenticationManager authenticationManager;
 
     @PostMapping
+    @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid UsuarioRequestDTO usuario){
         if (this.usuarioRepository.findByEmail(usuario.email()) != null ){
             return ResponseEntity.badRequest().build();
@@ -43,11 +45,8 @@ public class UsuarioController {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.usuario(),data.senha());
 
         var auth = this.authenticationManager.authenticate(usernamePassword);
-        System.out.println(auth);
-        if(auth.isAuthenticated() == true){
-          var token  =  tokenService.gerarToken((Usuario) auth.getPrincipal());
-          return ResponseEntity.ok().body(new UsuarioTOKENDTO(token));
-        }
-        return ResponseEntity.badRequest().build();
+        var token = tokenService.gerarToken((Usuario) auth.getPrincipal());
+        return ResponseEntity.ok().body(new UsuarioTOKENDTO(token));
+
     }
 }

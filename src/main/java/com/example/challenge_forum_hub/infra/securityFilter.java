@@ -11,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -31,7 +30,9 @@ public class securityFilter extends OncePerRequestFilter {
 
         if(token != null){
           var subject = tokenService.validarToken(token);
+
           UserDetails usuario = usuarioRepository.findByEmail(subject);
+
           var authorization = new UsernamePasswordAuthenticationToken(subject,null,usuario.getAuthorities());
           SecurityContextHolder.getContext().setAuthentication(authorization);
         }
@@ -43,6 +44,6 @@ public class securityFilter extends OncePerRequestFilter {
            var authHeader =  request.getHeader("Authorization");
            if(authHeader == null) return null;
 
-           return authHeader.replace("Bearer", "");
+           return authHeader.replace("Bearer ", "");
     }
 }

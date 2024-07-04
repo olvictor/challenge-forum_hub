@@ -25,6 +25,7 @@ public class TokenService {
             String token = JWT.create()
                     .withIssuer("forum_hub")
                     .withSubject(usuario.getUsername())
+                    .withClaim("id",usuario.getId())
                     .withExpiresAt(dataExpiracao())
                     .sign(algoritimo);
 

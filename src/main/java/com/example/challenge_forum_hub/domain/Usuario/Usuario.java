@@ -21,7 +21,7 @@ import java.util.List;
 public class Usuario implements UserDetails {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private long Id;
+   private Long Id;
    private String nome;
    private String email;
    private String senha;
@@ -31,7 +31,6 @@ public class Usuario implements UserDetails {
       this.email = usuario.email();
       this.senha = new BCryptPasswordEncoder().encode(usuario.senha());
    }
-
 
    @Override
    public Collection<? extends GrantedAuthority> getAuthorities() {
