@@ -23,6 +23,10 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity cadastrar(@RequestBody @Valid UsuarioRequestDTO usuario){
+        if (this.usuarioRepository.findByEmail(usuario.email()) != null ){
+            return ResponseEntity.badRequest().build();
+        }
+
        var usuarioRegistrado = usuarioRepository.save(new Usuario(usuario));
        return ResponseEntity.ok().body(usuarioRegistrado);
     }
@@ -34,7 +38,11 @@ public class UsuarioController {
 
         var auth = this.authenticationManager.authenticate(usernamePassword);
         System.out.println(auth);
-
+        if(auth.isAuthenticated() == true){
+            System.out.println("logou");
+        }else{
+            System.out.println("nao logou");
+        }
         return "testando";
     }
 }
