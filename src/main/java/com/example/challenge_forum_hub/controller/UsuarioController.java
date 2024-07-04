@@ -3,7 +3,9 @@ package com.example.challenge_forum_hub.controller;
 import com.example.challenge_forum_hub.domain.Usuario.Usuario;
 import com.example.challenge_forum_hub.domain.Usuario.UsuarioLoginDTO;
 import com.example.challenge_forum_hub.domain.Usuario.UsuarioRequestDTO;
+import com.example.challenge_forum_hub.domain.Usuario.UsuarioTOKENDTO;
 import com.example.challenge_forum_hub.repository.UsuarioRepository;
+import com.example.challenge_forum_hub.service.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
+
+
+    @Autowired
+    TokenService tokenService;
 
     @Autowired
     UsuarioRepository usuarioRepository;
@@ -33,16 +39,15 @@ public class UsuarioController {
 
 
     @PostMapping("/login")
-    public String logar(@RequestBody @Valid UsuarioLoginDTO data){
+    public ResponseEntity logar(@RequestBody @Valid UsuarioLoginDTO data){
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.usuario(),data.senha());
 
         var auth = this.authenticationManager.authenticate(usernamePassword);
         System.out.println(auth);
         if(auth.isAuthenticated() == true){
-            System.out.println("logou");
-        }else{
-            System.out.println("nao logou");
+          var token  =  tokenService.gerarToken((Usuario) auth.getPrincipal());
+          return ResponseEntity.ok().body(new UsuarioTOKENDTO(token));
         }
-        return "testando";
+        return ResponseEntity.badRequest().build();
     }
 }
