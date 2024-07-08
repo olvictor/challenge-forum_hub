@@ -53,11 +53,8 @@ public class TopicoController {
 
     @GetMapping("/{id}")
     public ResponseEntity buscarTopico(@PathVariable Long id){
-        if(id != null){
-            var topico = topicoRepository.getReferenceById(id);
-            return ResponseEntity.ok(new TopicoResponseDTO(topico));
-        }
-        return ResponseEntity.notFound().build();
+        var topico = topicoRepository.getReferenceById(id);
+        return ResponseEntity.ok(new TopicoResponseDTO(topico));
     }
 
     @PutMapping("/{id}")
@@ -80,11 +77,7 @@ public class TopicoController {
     @Transactional
     public ResponseEntity deletar(@PathVariable Long id){
         var topico = topicoRepository.getReferenceById(id);
-        if(topico != null){
-            topico.deletar();
-            return ResponseEntity.noContent().build();
-        }
-
-        return  ResponseEntity.notFound().build();
+        topico.deletar();
+        return ResponseEntity.noContent().build();
     }
 }
