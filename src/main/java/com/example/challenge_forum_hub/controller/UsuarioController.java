@@ -1,9 +1,6 @@
 package com.example.challenge_forum_hub.controller;
 
-import com.example.challenge_forum_hub.domain.Usuario.Usuario;
-import com.example.challenge_forum_hub.domain.Usuario.UsuarioLoginDTO;
-import com.example.challenge_forum_hub.domain.Usuario.UsuarioRequestDTO;
-import com.example.challenge_forum_hub.domain.Usuario.UsuarioTOKENDTO;
+import com.example.challenge_forum_hub.domain.Usuario.*;
 import com.example.challenge_forum_hub.repository.UsuarioRepository;
 import com.example.challenge_forum_hub.service.TokenService;
 import jakarta.transaction.Transactional;
@@ -13,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/usuario")
@@ -30,13 +28,14 @@ public class UsuarioController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid UsuarioRequestDTO usuario){
+    public ResponseEntity cadastrar(@RequestBody @Valid UsuarioRequestDTO usuario, UriComponentsBuilder uriBuilder){
         if (this.usuarioRepository.findByEmail(usuario.email()) != null ){
             return ResponseEntity.badRequest().build();
         }
+        var usuarioRegistrado = new Usuario(usuario);
+        usuarioRepository.save(usuarioRegistrado);
 
-       var usuarioRegistrado = usuarioRepository.save(new Usuario(usuario));
-       return ResponseEntity.ok().body(usuarioRegistrado);
+        return ResponseEntity.ok().body(usuarioRegistrado);
     }
 
 

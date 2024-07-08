@@ -1,16 +1,12 @@
 package com.example.challenge_forum_hub.domain.Topico;
 
-import com.example.challenge_forum_hub.domain.Curso.Curso;
 import com.example.challenge_forum_hub.domain.Resposta.Resposta;
-import com.example.challenge_forum_hub.domain.Usuario.Usuario;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,7 +22,7 @@ public class Topico {
    private Long id;
    private String titulo;
    private String mensagem;
-
+   @Column(name = "data_criacao")
    private LocalDateTime dataCriacao;
    private boolean status;
 
@@ -44,5 +40,22 @@ public class Topico {
       this.curso_id = dados.curso_id();
       this.dataCriacao = momentoAtual;
       this.status = true;
+   }
+
+   public void editarDados(TopicoRequestDTO dados) {
+      if(dados.titulo() != null){
+         this.titulo = dados.titulo();
+      }
+      if(dados.mensagem() != null){
+         this.mensagem = dados.mensagem();
+      }
+      if(dados.curso_id() != null){
+         this.curso_id = dados.curso_id();
+      }
+
+   }
+
+   public void deletar() {
+      this.status = false;
    }
 }
