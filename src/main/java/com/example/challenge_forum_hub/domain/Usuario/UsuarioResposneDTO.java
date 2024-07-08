@@ -5,4 +5,7 @@ public record UsuarioResposneDTO(
         String nome,
         String email) {
 
+    public UsuarioResposneDTO(Usuario usuario) {
+        this(usuario.getId(),usuario.getNome(), usuario.getEmail());
+    }
 }

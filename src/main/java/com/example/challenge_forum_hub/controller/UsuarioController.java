@@ -35,7 +35,9 @@ public class UsuarioController {
         var usuarioRegistrado = new Usuario(usuario);
         usuarioRepository.save(usuarioRegistrado);
 
-        return ResponseEntity.ok().body(usuarioRegistrado);
+        var uri = uriBuilder.path("/usuario/{id}").buildAndExpand(usuarioRegistrado.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(new UsuarioResposneDTO(usuarioRegistrado));
     }
 
 
@@ -46,6 +48,15 @@ public class UsuarioController {
         var auth = this.authenticationManager.authenticate(usernamePassword);
         var token = tokenService.gerarToken((Usuario) auth.getPrincipal());
         return ResponseEntity.ok().body(new UsuarioTOKENDTO(token));
+
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity buscarUsuario(@PathVariable Long id){
+
+        var usuario = usuarioRepository.getReferenceById(id);
+
+        return ResponseEntity.ok().body(new UsuarioResposneDTO(usuario));
 
     }
 }
