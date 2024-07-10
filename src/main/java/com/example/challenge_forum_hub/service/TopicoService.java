@@ -21,9 +21,9 @@ public class TopicoService {
         LocalDateTime momentoAtual = LocalDateTime.now();
         var topico = new Topico(dados, idUsuario, momentoAtual);
 
-        var topicoComTituloExistente = topicoRepository.findByTitulo(dados.titulo());
-        if(topicoComTituloExistente.getMensagem().equals(dados.mensagem())){
-            throw new RuntimeException("Tópico já existente.");
+        var topicoComTituloEMensagemExistente = topicoRepository.findByTituloAndMensagem(dados.titulo(), dados.mensagem());
+        if(topicoComTituloEMensagemExistente != null){
+            throw new RuntimeException("Tópico com o mesmo titulo e mensagem já existentes no banco de dados");
         }
 
         return topico;

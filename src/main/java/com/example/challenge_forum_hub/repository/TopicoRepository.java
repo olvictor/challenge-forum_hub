@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TopicoRepository extends JpaRepository<Topico, Long> {
    Topico findByTitulo(String titulo);
-   Topico findByTituloAndMensagem(String email, String mensagem);
+   Topico findByid(Long id);
+   Topico findByTituloAndMensagem(String titulo, String mensagem);
 }

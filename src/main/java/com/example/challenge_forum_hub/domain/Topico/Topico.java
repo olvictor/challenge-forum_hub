@@ -2,10 +2,7 @@ package com.example.challenge_forum_hub.domain.Topico;
 
 import com.example.challenge_forum_hub.domain.Resposta.Resposta;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "topicos")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -40,6 +38,13 @@ public class Topico {
       this.curso_id = dados.curso_id();
       this.dataCriacao = momentoAtual;
       this.status = true;
+   }
+
+   public Topico(String titulo, String mensagemDoTopico, long idCurso, LocalDateTime dataCriacao) {
+      this.titulo = titulo;
+      this.mensagem = mensagemDoTopico;
+      this.curso_id = idCurso;
+      this.dataCriacao = dataCriacao;
    }
 
    public void editarDados(TopicoRequestDTO dados) {

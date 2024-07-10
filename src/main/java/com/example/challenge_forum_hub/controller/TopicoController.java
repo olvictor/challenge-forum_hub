@@ -17,7 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/topicos")
@@ -69,7 +68,7 @@ public class TopicoController {
 
            return ResponseEntity.ok(new TopicoResponseDTO(topicoExistente));
        }
-       throw  new RuntimeException("Titulo com essa mensagem já existentes no banco de dados");
+       throw  new RuntimeException("Tópico com o mesmo titulo e mensagem já existentes no banco de dados");
 
     }
 
