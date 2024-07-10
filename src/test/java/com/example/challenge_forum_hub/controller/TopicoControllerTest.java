@@ -7,6 +7,7 @@ import com.example.challenge_forum_hub.repository.TopicoRepository;
 import com.example.challenge_forum_hub.repository.UsuarioRepository;
 import com.example.challenge_forum_hub.service.TopicoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -25,12 +26,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -106,7 +109,7 @@ class TopicoControllerTest {
         when(topicoRepository.getReferenceById(topicoId)).thenReturn(mockTopico);
 
         mvc.perform(get("/topicos/{id}", topicoId))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.titulo").value("Título de Exemplo"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.mensagem").value("Mensagem de Exemplo"));
 
@@ -138,7 +141,7 @@ class TopicoControllerTest {
         mvc.perform(MockMvcRequestBuilders.put("/topicos/{id}", topicoId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateRequest)))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.titulo").value("Novo Título"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.mensagem").value("Nova Mensagem"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.curso_id").value(1L));
@@ -147,25 +150,33 @@ class TopicoControllerTest {
 
 
     @Test
-    @DisplayName("Deveria retornar status 200 com o conteudo do topico editado no body da requisicao.")
+    @DisplayName("Deveria retornar status 204 com o topico sendo deletado.")
     @WithMockUser
-    void deletar_topico() throws Exception {
+    void deletar_topico_cenario1() throws Exception {
 
-        Long topicoId = 1L;
-        Topico existingTopico = new Topico();
-        existingTopico.setId(topicoId);
-        existingTopico.setTitulo("Título Antigo");
-        existingTopico.setMensagem("Mensagem Antiga");
-        existingTopico.setCurso_id(1L);
+        Long id = 1L;
+        Topico topico = new Topico();
+        topico.setId(id);
+
+        when(topicoRepository.getById(id)).thenReturn(topico);
+        topico.deletar();
+
+        mvc.perform(delete("/topicos/{id}", id))
+                .andExpect(status().isNoContent());
+
+    }
 
 
-        // Simula o retorno do tópico existente pelo ID
-        when(topicoRepository.getReferenceById(topicoId)).thenReturn(existingTopico);
+    @Test
+    @DisplayName("Deveria retornar status 404 não encontrando o topico.")
+    @WithMockUser
+    void deletar_topico_cenario2() throws Exception {
 
+        Long id = 1L;
+        when(topicoRepository.getById(id)).thenThrow(new EntityNotFoundException());
 
-        mvc.perform(MockMvcRequestBuilders.delete("/topicos/{id}", topicoId)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isNoContent());
+        mvc.perform(delete("/topicos/{id}", id))
+                .andExpect(status().isNotFound());
 
     }
 
