@@ -83,14 +83,14 @@ cd challenge-forum-hub
 ​
 | route               | description                                          
 |----------------------|-----------------------------------------------------
-| <kbd>POST /usuario</kbd>     | retrieves user info see [response details](#post-register-detail)
-| <kbd>POST /usuario/login</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
-| <kbd>GET /usuario/id</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
-| <kbd>POST /topicos</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
-| <kbd>GET /topicos</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
-| <kbd>GET /topicos/id</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
-| <kbd>DEL /topicos/id</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
-| <kbd>PUT /topicos/id</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
+| <kbd>POST /usuario</kbd>     | realiza o cadastro do usuário. [response details](#post-register-detail)
+| <kbd>POST /usuario/login</kbd>     | autentica o usuário e retorna o token. [request details](#post-auth-detail)
+| <kbd>GET /usuario/id</kbd>     | retorna o usuario referente ao id. [request details](#post-auth-get)
+| <kbd>POST /topicos</kbd>     | cadastra um topico no banco de dados. [request details](#post-insert)
+| <kbd>GET /topicos</kbd>     | retorna todos os topicos cadastrados. [request details](#get-topicos)
+| <kbd>GET /topicos/id</kbd>     | retorna o topico referente ao id. [request details](#get-topicos-id)
+| <kbd>PUT /topicos/id</kbd>     | edita o topico com as informações passadas na requisição e retorna o novo topico. [request details](#put-topico)
+| <kbd>DEL /topicos/id</kbd>     | deleta o topico. [request details](#DEL-topico)
 
 
 
@@ -131,7 +131,7 @@ cd challenge-forum-hub
 }
 ```
 
-<h3 id="post-auth-detail">GET /usuario/id</h3>
+<h3 id="post-auth-get">GET /usuario/id</h3>
 
 **REQUEST**
 ```json
@@ -146,6 +146,152 @@ cd challenge-forum-hub
 	"email": "a@a.com"
 }
 ```
+
+<h3 id="post-insert">POST /topicos</h3>
+
+**REQUEST**
+```json
+{
+	"titulo": "testando.",
+	"mensagem": "testando mensagem topicos.",
+	"curso_id": 1
+}
+```
+
+**RESPONSE**
+```json
+{
+	"titulo": "testando.",
+	"mensagem": "testando mensagem topicos.",
+	"data_criacao": "2024-07-11T16:17:43.2257936",
+	"status": true,
+	"autor_id": 4,
+	"curso_id": 1
+}
+```
+
+<h3 id="get-topicos">GET /topicos</h3>
+
+**RESPONSE**
+```json
+{
+	"totalElements": 5,
+	"totalPages": 1,
+	"first": true,
+	"last": true,
+	"size": 10,
+	"content": [
+		{
+			"titulo": "testando1",
+			"mensagem": "testando mensagem topicoas 1",
+			"data_criacao": "2024-07-04T18:37:06",
+			"status": true,
+			"autor_id": 1,
+			"curso_id": 1
+		},
+		{
+			"titulo": "testando",
+			"mensagem": "testando mensagem topico",
+			"data_criacao": "2024-07-05T11:07:24",
+			"status": false,
+			"autor_id": 1,
+			"curso_id": 1
+		},
+		{
+			"titulo": "testando",
+			"mensagem": "testando mensagem topicoas",
+			"data_criacao": "2024-07-05T11:23:41",
+			"status": false,
+			"autor_id": 1,
+			"curso_id": 1
+		},
+		{
+			"titulo": "testando1",
+			"mensagem": "testando mensagem topi1",
+			"data_criacao": "2024-07-08T10:56:45",
+			"status": true,
+			"autor_id": 1,
+			"curso_id": 1
+		},
+		{
+			"titulo": "testando.",
+			"mensagem": "testando mensagem topicos.",
+			"data_criacao": "2024-07-11T16:17:43",
+			"status": true,
+			"autor_id": 1,
+			"curso_id": 1
+		}
+	],
+	"number": 0,
+	"sort": {
+		"empty": false,
+		"sorted": true,
+		"unsorted": false
+	},
+	"numberOfElements": 5,
+	"pageable": {
+		"pageNumber": 0,
+		"pageSize": 10,
+		"sort": {
+			"empty": false,
+			"sorted": true,
+			"unsorted": false
+		},
+		"offset": 0,
+		"paged": true,
+		"unpaged": false
+	},
+	"empty": false
+}
+```
+
+
+<h3 id="get-topicos-id">GET /topicos/${id}</h3>
+
+**RESPONSE**
+```json
+{
+	"titulo": "testando.",
+	"mensagem": "testando mensagem topicos.",
+	"data_criacao": "2024-07-11T16:17:43.2257936",
+	"status": true,
+	"autor_id": 4,
+	"curso_id": 1
+}
+```
+
+
+<h3 id="put-topico">PUT /topicos/${id}</h3>
+
+**REQUEST**
+```json
+{
+	"titulo": "testando edicao titulo.",
+	"mensagem": "testando edicao mensagem mensagem topicos.",
+	"curso_id": 1
+}
+```
+
+**RESPONSE**
+```json
+{
+	"titulo": "testando edicao titulo.",
+	"mensagem": "testando edicao mensagem mensagem topicos.",
+	"data_criacao": "2024-07-11T16:17:43.2257936",
+	"status": true,
+	"autor_id": 4,
+	"curso_id": 1
+}
+```
+
+
+<h3 id="DEL-topico">DEL /topicos/${id}</h3>
+
+**RESPONSE**
+```json
+{204 No Content}
+```
+
 
 <h2 id="colab">🤝 Colaboradores</h2>
 
