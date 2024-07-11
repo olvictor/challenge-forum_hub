@@ -288,10 +288,7 @@ cd challenge-forum-hub
 <h3 id="DEL-topico">DEL /topicos/${id}</h3>
 
 **RESPONSE**
-```json
-{204 No Content}
-```
-
+<p>204 - NO CONTENT</p>
 
 <h2 id="colab">🤝 Colaboradores</h2>
 
