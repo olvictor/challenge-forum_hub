@@ -86,6 +86,13 @@ cd challenge-forum-hub
 | <kbd>POST /usuario</kbd>     | retrieves user info see [response details](#post-register-detail)
 | <kbd>POST /usuario/login</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
 | <kbd>GET /usuario/id</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
+| <kbd>POST /topicos</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
+| <kbd>GET /topicos</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
+| <kbd>GET /topicos/id</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
+| <kbd>DEL /topicos/id</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
+| <kbd>PUT /topicos/id</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
+
+
 
 <h3 id="post-register-detail">POST /login</h3>
 
@@ -128,9 +135,7 @@ cd challenge-forum-hub
 
 **REQUEST**
 ```json
-{
-  /usuario/${id}
-}
+"/usuario/{id}"
 ```
 
 **RESPONSE**
