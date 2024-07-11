@@ -38,6 +38,7 @@ Em resumo, nosso objetivo com este challenge é implementar uma API REST com as 
 - Mostrar um tópico específico;
 - Atualizar um tópico;
 - Eliminar um tópico.
+<br> </br>
 [![dqAoZ8l.md.png](https://iili.io/dqAoZ8l.md.png)](https://freeimage.host/i/dqAoZ8l)
 
 
@@ -82,10 +83,20 @@ cd challenge-forum-hub
 ​
 | route               | description                                          
 |----------------------|-----------------------------------------------------
-| <kbd>POST /usuario</kbd>     | retrieves user info see [response details](#get-auth-detail)
-| <kbd>POST /authenticate</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
+| <kbd>POST /usuario</kbd>     | retrieves user info see [response details](#post-register-detail)
+| <kbd>POST /usuario/login</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
+| <kbd>GET /usuario/id</kbd>     | authenticate user into the api see [request details](#post-auth-detail)
 
-<h3 id="get-auth-detail">GET /authenticate</h3>
+<h3 id="post-register-detail">POST /login</h3>
+
+**REQUEST**
+```json
+{
+  "nome": "nome",
+  "email": "a@a.com",
+  "senha": "senha"
+}
+```
 
 **RESPONSE**
 ```json
@@ -101,8 +112,7 @@ cd challenge-forum-hub
 **REQUEST**
 ```json
 {
-  "nome": "nome",
-  "email": "a@a.com",
+  "usuario": "a@a.com",
   "senha": "senha"
 }
 ```
@@ -110,7 +120,25 @@ cd challenge-forum-hub
 **RESPONSE**
 ```json
 {
-  "token": "OwoMRHsaQwyAgVoc3OXmL1JhMVUYXGGBbCTK0GBgiYitwQwjf0gVoBmkbuyy0pSi"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmb3J1bV9odWIiLCJzdWIiOiJhQGEuY29tIiwiaWQiOjQsImV4cCI6MTcyMDczMTk4Nn0.8dJSIl-nfAnaTSoKWL7Q5AHohVs8VY1_5uV2fJ265Xs"
+}
+```
+
+<h3 id="post-auth-detail">GET /usuario/id</h3>
+
+**REQUEST**
+```json
+{
+  /usuario/${id}
+}
+```
+
+**RESPONSE**
+```json
+{
+	"id": 4,
+	"nome": "nome",
+	"email": "a@a.com"
 }
 ```
 
