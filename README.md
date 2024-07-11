@@ -107,7 +107,7 @@ cd challenge-forum-hub
 }
 ```
 
-<h3 id="post-auth-detail">POST /authenticate</h3>
+<h3 id="post-auth-detail">POST /usuario/login </h3>
 
 **REQUEST**
 ```json
