@@ -24,7 +24,7 @@
 Este é o desafio chamado de FórumHub: nele, vamos replicar o processo de criação de um fórum no nível do backend e, para isso, criaremos uma API REST usando Spring.
 Nossa API se concentrará especificamente nos tópicos, e deve permitir aos usuários:
 
-É o que conhecemos normalmente como CRUD (CREATE, READ, UPDATE, DELETE)* e é muito parecido com o que desenvolvemos no LiterAlura, mas agora de forma completa, agregando as operações de UPDATE e DELETE, e usando um framework que facilitará muito o nosso trabalho.
+É o que conhecemos normalmente como CRUD (CREATE, READ, UPDATE, DELETE) e usando um framework que facilitará muito o nosso trabalho.
 
 * Tradução (em ordem): Criar, Consultar, Atualizar e Deletar.
 
